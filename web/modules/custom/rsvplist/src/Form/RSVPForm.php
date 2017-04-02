@@ -65,6 +65,6 @@ class RSVPForm extends FormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
-    \Drupal\Core\Form\drupal_set_message(t('The form is working.'));
+    drupal_set_message('Form is working!');
   }
 }
