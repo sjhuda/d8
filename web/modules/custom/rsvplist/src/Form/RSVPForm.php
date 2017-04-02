@@ -8,6 +8,7 @@ namespace Drupal\rsvplist\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatch;
 use Drupal\node\Entity\Node;
 
 class RSVPForm extends FormBase
@@ -37,7 +38,7 @@ class RSVPForm extends FormBase
    */
   public function buildForm(array $form, FormStateInterface $form_state)
   {
-    $node = $this->routeMatch->getParameter('node');
+    $node = \Drupal::routeMatch()->getParameter('node');
     $nid = $node->nid->value;
 
     $form['email'] = [
