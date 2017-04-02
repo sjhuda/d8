@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Contains rsvplist.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function rsvplist_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the rsvplist module.
+    case 'help.page.rsvplist':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function rsvplist_theme() {
+  return [
+    'rsvplist' => [
+      'template' => 'rsvplist',
+      'render element' => 'children',
+    ],
+  ];
+}
