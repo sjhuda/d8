@@ -2,7 +2,12 @@
 
 namespace Drupal\rsvplist\Plugin\Block;
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Annotation\Translation;
+use Drupal\Core\Block\Annotation\Block;
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * Provides a 'RSVPBlock' block.
@@ -18,10 +23,17 @@ class RSVPBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $build = [];
-    $build['rsvpblock']['#markup'] = 'Implement RSVPBlock.';
+    return \Drupal::formBuilder()->getForm('\Drupal\rsvplist\Form\RSVPForm');
+  }
 
-    return $build;
+  public function blockAccess(AccountInterface $account) {
+    /** @var Node $node */
+    $node = \Drupal::routeMatch()->getParameter('node');
+    $nid = $node->nid->value;
+    if (is_numeric($nid)) {
+      return AccessResult::allowedIfHasPermission($account, 'view rsvplist');
+    }
+    return AccessResult::forbidden();
   }
 
 }
