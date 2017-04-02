@@ -34,12 +34,16 @@ class RSVPSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $types = NodeType::loadMultiple();
-    $config = $this->config('rsvplist.rsvpsettings');
+    $select_types = array();
+    foreach ($types as $key => $value) {
+      $select_types[$key] = $value->label();
+    }
+    $config = $this->config('rsvplist.settings');
     $form['rsvplist_types'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('The content types to enable RSVP collection for'),
       '#description' => $this->t('On the specified node types, an RSVP option will be available and can be enabled while that node is being editied.'),
-      '#options' => $types,
+      '#options' => $select_types,
       '#default_value' => $config->get('allowed_types'),
     ];
     $form['array_filter'] = ['#type' => 'value', '#value' => true];
