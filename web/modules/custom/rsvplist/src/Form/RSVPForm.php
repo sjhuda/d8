@@ -8,8 +8,7 @@ namespace Drupal\rsvplist\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RouteMatch;
-use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
 
 class RSVPForm extends FormBase
 {
@@ -77,6 +76,15 @@ class RSVPForm extends FormBase
    */
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
-    drupal_set_message('Form is working!');
+    $user = User::load($this->currentUser()->id());
+    db_insert('rsvplist')
+      ->fields([
+        'mail' => $form_state->getValue('email'),
+        'nid' => $form_state->getValue('nid'),
+        'uid' => $user->id(),
+        'created' => time(),
+      ])
+      ->execute();
+    drupal_set_message(t('Thank you for your RSVP, you are on the list for the event.'));
   }
 }
