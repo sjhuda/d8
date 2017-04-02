@@ -6,6 +6,7 @@
  */
 namespace Drupal\rsvplist\Form;
 
+use Drupal\Core\Database\Database;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\user\Entity\User;
@@ -77,7 +78,8 @@ class RSVPForm extends FormBase
   public function submitForm(array &$form, FormStateInterface $form_state)
   {
     $user = User::load($this->currentUser()->id());
-    db_insert('rsvplist')
+    $conn = Database::getConnection();
+    $conn->insert('rsvplist')
       ->fields([
         'mail' => $form_state->getValue('email'),
         'nid' => $form_state->getValue('nid'),
